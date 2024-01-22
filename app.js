@@ -16,6 +16,13 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const app = express();
 
+// Defining the view engine.
+app.set('view engine', 'pug')
+
+// Defining the views directory
+app.set('views', path.join(__dirname, './views'))
+
+
 //GLOBAL MIDDLEWARES
 
 //Serving static files
@@ -23,7 +30,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookieParser())
 //Set security HTTP headers
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'worker-src': ['blob:'],
+        'child-src': ['blob:', 'https://js.stripe.com/'],
+        'img-src': ["'self'", 'data: image/webp'],
+        'script-src': [
+          "'self'",
+          'https://api.mapbox.com',
+          'https://cdnjs.cloudflare.com',
+          'https://js.stripe.com/v3/',
+          "'unsafe-inline'",
+        ],
+        'connect-src': [
+          "'self'",
+          'ws://localhost:*',
+          'ws://127.0.0.1:*',
+          'http://127.0.0.1:*',
+          'http://localhost:*',
+          'https://*.tiles.mapbox.com',
+          'https://api.mapbox.com',
+          'https://events.mapbox.com',
+        ],
+      },
+    },
+    crossOriginEmbedderPolicy: false,
+})
+);
 //Development logging
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
@@ -63,6 +98,8 @@ app.use((req, res, next) => {
 });
 
 //ROUTES
+
+
 app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
