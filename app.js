@@ -6,7 +6,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
-const cookieParser = require('cookie-parser'); //Psrses all the cookies from incoming requests so we can have access to them 
+const cookieParser = require('cookie-parser'); //Psrses all the cookies from incoming requests so we can have access to them
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -17,18 +17,17 @@ const reviewRouter = require('./routes/reviewRoutes');
 const app = express();
 
 // Defining the view engine.
-app.set('view engine', 'pug')
+app.set('view engine', 'pug');
 
 // Defining the views directory
-app.set('views', path.join(__dirname, './views'))
-
+app.set('views', path.join(__dirname, './views'));
 
 //GLOBAL MIDDLEWARES
 
 //Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cookieParser())
+app.use(cookieParser());
 //Set security HTTP headers
 app.use(
   helmet({
@@ -57,7 +56,7 @@ app.use(
       },
     },
     crossOriginEmbedderPolicy: false,
-})
+  })
 );
 //Development logging
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
@@ -72,7 +71,8 @@ app.use('/api', limiter);
 
 //Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); //When the req.body is greater than 10kb, the request will not be sent
-app.use(cookieParser())
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(cookieParser());
 //Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 //Data sanitization against XSS
@@ -98,7 +98,6 @@ app.use((req, res, next) => {
 });
 
 //ROUTES
-
 
 app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
