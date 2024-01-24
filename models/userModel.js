@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true, //Not a validator. this simply converts the value to lowercase
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
-  photo: String,
+  photo: { type: String, default: 'default.jpg' },
   role: {
     type: String,
     enum: ['user', 'guide', 'lead-guide', 'admin'],
@@ -33,8 +33,8 @@ const userSchema = new mongoose.Schema({
   active: {
     type: Boolean,
     default: true,
-    select: false
-  }
+    select: false,
+  },
 });
 
 userSchema
@@ -46,7 +46,8 @@ userSchema
     this._confirmPassword = value;
   });
 
-userSchema.pre('save', async function (next) { //The pre-save hook will only work with save() and create()
+userSchema.pre('save', async function (next) {
+  //The pre-save hook will only work with save() and create()
   if (!this.isModified('password')) return next();
 
   if (this.isModified('password') && this.password !== this.confirmPassword) {
@@ -58,15 +59,15 @@ userSchema.pre('save', async function (next) { //The pre-save hook will only wor
 
 userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
-  this.passwordChangedAt = Date.now()
-  next()
+  this.passwordChangedAt = Date.now();
+  next();
 });
 
-userSchema.pre(/^find/, function(next){
+userSchema.pre(/^find/, function (next) {
   //this points to the current query
-  this.find({active: {$ne: false}})
-  next()
-})
+  this.find({ active: { $ne: false } });
+  next();
+});
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
