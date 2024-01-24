@@ -42,21 +42,21 @@ function filteredObj(obj, ...allowedFields) {
 }
 
 module.exports = {
-  uploadUserPhoto: upload.single('photo'), // upload.single means we only allow a single file (photo) to be uploaded with this route. The multer middleware will put the file in the req object
+  uploadUserPhoto: upload.single('photo'), // upload.single means we only allow a single file to be uploaded with this route. The multer middleware will put the file in the req object, and the photo will be in the "photo" field in the user model
   
-  resizeUserPhoto: function (req, res, next) { // This middleware triggers right after uploading the picture. the photo first is uploaded to memory storage and then the image is resized by the middleware and finally mounted to the req.file.filename and to the disk storage
+  resizeUserPhoto: catchAsync(async function (req, res, next) { // This middleware triggers right after uploading the picture. the photo first is uploaded to memory storage and then the image is resized by the middleware and finally mounted to the req.file.filename and to the disk storage
     if (!req.file) return next();
 
     req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
     // Image processing
-    sharp(req.file.buffer)
+    await sharp(req.file.buffer)
       .resize(500, 500)
       .toFormat('jpeg')
       .jpeg({ quality: 90 })
       .toFile(`public/img/users/${req.file.filename}`);
     next();
-  },
+  }),
   getMe: function (req, res, next) {
     res.status(200).json({
       status: 'success',
