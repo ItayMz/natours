@@ -12012,6 +12012,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.login = login;
 exports.logout = logout;
+exports.signup = signup;
 var _axios = _interopRequireDefault(require("axios"));
 var _alerts = require("./alerts");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12065,7 +12066,6 @@ function logout() {
 }
 function _logout() {
   _logout = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-    var res;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
@@ -12076,21 +12076,63 @@ function _logout() {
             url: 'http://localhost:3000/api/v1/users/logout'
           });
         case 3:
-          res = _context2.sent;
-          if (res.data.status === 'success') location.reload(true);
-          _context2.next = 10;
+          _context2.next = 8;
           break;
-        case 7:
-          _context2.prev = 7;
+        case 5:
+          _context2.prev = 5;
           _context2.t0 = _context2["catch"](0);
           (0, _alerts.showAlert)('error', 'Error logging out! Try again.');
-        case 10:
+        case 8:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 7]]);
+    }, _callee2, null, [[0, 5]]);
   }));
   return _logout.apply(this, arguments);
+}
+function signup(_x3, _x4, _x5, _x6) {
+  return _signup.apply(this, arguments);
+}
+function _signup() {
+  _signup = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(name, email, password, confirmPassword) {
+    var res;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.prev = 0;
+          _context3.next = 3;
+          return (0, _axios.default)({
+            method: 'POST',
+            url: 'http://localhost:3000/api/v1/users/signup',
+            data: {
+              name: name,
+              email: email,
+              password: password,
+              confirmPassword: confirmPassword
+            }
+          });
+        case 3:
+          res = _context3.sent;
+          if (res.data.status === 'success') {
+            (0, _alerts.showAlert)('success', 'Signed up successfully, please check your email');
+            window.setTimeout(function () {
+              location.assign('/');
+            }, 1500);
+          }
+          _context3.next = 11;
+          break;
+        case 7:
+          _context3.prev = 7;
+          _context3.t0 = _context3["catch"](0);
+          console.log(_context3.t0.response);
+          (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+        case 11:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3, null, [[0, 7]]);
+  }));
+  return _signup.apply(this, arguments);
 }
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"updateSettings.js":[function(require,module,exports) {
 "use strict";
@@ -12337,10 +12379,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var mapBox = document.getElementById('map');
 var loginForm = document.querySelector('.form--login');
+var signupForm = document.querySelector('.form--signup');
 var logoutBtn = document.querySelector('.nav__el--logout');
 var userDataForm = document.querySelector('.form-user-data');
 var userPasswordForm = document.querySelector('.form-user-password');
-var bookBtn = document.getElementById("book-tour");
+var bookBtn = document.getElementById('book-tour');
 
 // DELEGATION
 
@@ -12354,6 +12397,16 @@ if (loginForm) {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
     (0, _login.login)(email, password);
+  });
+}
+if (signupForm) {
+  signupForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
+    (0, _login.signup)(name, email, password, confirmPassword);
   });
 }
 if (logoutBtn) logoutBtn.addEventListener('click', _login.logout);
@@ -12401,8 +12454,8 @@ if (userPasswordForm) {
     };
   }());
 }
-if (bookBtn) bookBtn.addEventListener("click", function (e) {
-  e.target.textContent = "Processing...";
+if (bookBtn) bookBtn.addEventListener('click', function (e) {
+  e.target.textContent = 'Processing...';
   var tourId = e.target.dataset.tourId;
   (0, _stripe.bookTour)(tourId);
 });

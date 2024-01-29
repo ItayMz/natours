@@ -41,11 +41,12 @@ function createSendToken(user, statusCode, res) {
 module.exports = {
   signup: catchAsync(async function (req, res, next) {
     const newUser = await User.create(req.body);
+    console.log(newUser);
     const url = `${req.protocol}://${req.get('host')}/me`;
-    console.log(url);
     await new Email(newUser, url).sendWelcome();
     createSendToken(newUser, 201, res);
   }),
+
   login: catchAsync(async function (req, res, next) {
     const { email, password } = req.body;
     if (!email || !password) {

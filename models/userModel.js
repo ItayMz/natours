@@ -53,7 +53,7 @@ userSchema.pre('save', async function (next) {
   if (this.isModified('password') && this.password !== this.confirmPassword) {
     return next(new AppError('Password confirmation does not match.', 400));
   }
-  this.password = await bcrypt.hash(this.password, 12);
+  this.password = await bcrypt.hash(this.password, await bcrypt.genSalt(12));
   next();
 });
 

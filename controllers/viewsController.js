@@ -36,6 +36,11 @@ module.exports = {
       title: 'Log into your account',
     });
   },
+  getSignUpForm: function (req,res){
+    res.status(200).render("signup",{
+      title: 'Sign up'
+    })
+  },
   getAccount: function (req, res) {
     res.status(200).render('account', {
       title: 'Your account',
