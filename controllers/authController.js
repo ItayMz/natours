@@ -64,6 +64,7 @@ module.exports = {
     res.cookie('jwt', 'logged out', {
       expires: new Date(Date.now() + 10 * 1000),
       httpOnly: true,
+      secure: true
     });
     res.status(200).json({ status: 'success' });
   },

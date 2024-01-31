@@ -16,6 +16,7 @@ module.exports = {
     });
   }),
   getTour: catchAsync(async function (req, res, next) {
+    console.log("TOUR?", req.tour);
     // Get the data, for the requested tour (including reviews and guides)
     const tour = await Tour.findOne({ slug: req.params.slug }).populate({
       path: 'reviews',
@@ -24,11 +25,23 @@ module.exports = {
 
     if (!tour)
       return next(new AppError('There is no tour with that name', 404));
+
+      const booking = await Booking.findOne({user: res.locals.user, tour})
+
+      let commentExist;
+      if(res.locals.user){
+        commentExist = tour.reviews.some(review=>{
+          review.user.id === res.locals.user.id
+        })
+      }
+      const isBooked = booking? true : false
     // Build template
     //Render template using the data
     res.status(200).render('tour', {
       title: tour.name,
       tour,
+      isBooked,
+      commentExist
     });
   }),
   getLoginForm: function (req, res) {

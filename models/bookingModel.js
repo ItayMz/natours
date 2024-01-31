@@ -13,7 +13,7 @@ const bookingSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    requred: [true, 'Booking must have a price.'],
+    required: [true, 'Booking must have a price.'],
   },
   createdAt: {
     type: Date,
@@ -25,6 +25,7 @@ const bookingSchema = new mongoose.Schema({
   },
 });
 
+
 bookingSchema.pre(/^find/, function (next) {
   this.populate('user').populate({
     path: 'tour',
@@ -32,6 +33,8 @@ bookingSchema.pre(/^find/, function (next) {
   });
   next()
 });
+
+
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

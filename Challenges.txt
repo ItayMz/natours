@@ -1,7 +1,7 @@
 Below are the challenges typed out so not everyone has to type them out on their own
 
 
-- Implement restriction that users can only review a tour that they have actually booked;
+- Implement restriction that users can only review a tour that they have actually booked; --COMPLETED--
 
 - Implement nested booking routes: /tours/:id/bookings and /users/:id/bookings;
 
@@ -19,7 +19,7 @@ CHALLENGES WEBSITE
 
 - Hide the entire booking section on the detail page if current user has already booked the tour(also prevent duplicate bookings on the model);
 
-- Implement "like tour" functionality, with fav tour page;
+- Implement "liked tours" functionality, with fav tour page;
 
 - On the user account page, implement the "My Reviews" page, wehere all reviews are displayed, and a user can edit them. (If you know REACT, this would be an amazing way to use the Natours API and train your skills!);
 

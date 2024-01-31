@@ -3,6 +3,8 @@ const catchAsync = require('../utils/catchAsync');
 const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 const factory = require('./handlerFactory');
+const AppError = require('../utils/appError');
+const User = require('../models/userModel');
 module.exports = {
   createBooking: factory.createOne(Booking),
   getBooking: factory.getOne(Booking),
@@ -55,8 +57,22 @@ module.exports = {
     const { tour, user, price } = req.query;
 
     if (!tour && !user && !price) return next();
+
+    const userDB = await User.findById(user)
+    console.log("FROM BOOKING CONTROLLER:" , userDB, tour);
+
+    
     await Booking.create({ tour, user, price });
 
     res.redirect(req.originalUrl.split('?')[0]);
+  }),
+  checkIfBooked: catchAsync(async function (req, res, next) {
+    const bookings = await Booking.find({
+      user: req.user.id,
+      tour: req.body.tour,
+    });
+    if (bookings.length === 0)
+      return next(new AppError('You must buy this tour to review it'));
+    next();
   }),
 };

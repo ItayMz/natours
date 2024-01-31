@@ -243,6 +243,7 @@ body {
   font-size: 1.4rem !important;
 }
 
+
 .btn-small,
 .btn-small:link,
 .btn-small:visited {
@@ -674,6 +675,7 @@ body {
 .reviews__star--inactive {
   fill: #bbb;
 }
+
 
 .section-cta {
   margin-top: calc(0px - var(--section-rotate));

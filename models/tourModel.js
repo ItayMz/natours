@@ -107,6 +107,7 @@ const tourSchema = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
+
 tourSchema.virtual('durationWeeks').get(function () {
   //Not a part of the query!
   return (this.duration / 7).toFixed(2);
