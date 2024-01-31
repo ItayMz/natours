@@ -3,6 +3,7 @@ import { displayMap } from './mapbox';
 import { login, logout, signup } from './login';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
+import { leaveReview } from './reviews';
 // DOM ELEMENTS
 
 const mapBox = document.getElementById('map');
@@ -12,6 +13,7 @@ const logoutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
+const reviewForm = document.querySelector(".review--form")
 
 // DELEGATION
 
@@ -83,3 +85,17 @@ if (bookBtn)
     const { tourId } = e.target.dataset;
     bookTour(tourId);
   });
+
+  if(reviewForm){
+    reviewForm.addEventListener('submit', function(e){
+      e.preventDefault()
+      const reviewText = document.getElementById("review").value
+      const reviewRating = document.getElementById("rating").value
+      const {user,tour} = JSON.parse(reviewForm.dataset.ids)
+
+      leaveReview(reviewText,reviewRating, tour, user)
+
+      document.getElementById("review").textContent = ""
+      document.getElementById("rating").textContent = ""
+    })
+  }

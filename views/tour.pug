@@ -25,6 +25,7 @@ block content
             img.header__hero-img(src=`/img/tours/${tour.imageCover}`, alt=`${tour.name}`)
 
         .heading-box
+           
             h1.heading-primary
                 span= `${tour.name} tour`
             .heading-box__group
@@ -87,6 +88,20 @@ block content
             each review in tour.reviews 
                 +reviewCard(review)
 
+        -if(isBooked && !commentExist)
+          section.add-review 
+            .login-form 
+                 h2.heading-secondary.ma-bt-lg Leave a review
+                 form.form.review--form(data-ids= `${JSON.stringify({user: user.id, tour: tour.id})}`)
+                    .form__group 
+                        label.form__label(for="review") Review 
+                        textarea#review.form__input(type="text", required)
+                    .form__group 
+                        label.form__label(for="rating") Rating (1-5) 
+                        input#rating.form__input(type="number", required, min=1, max=5)
+                    .form__group 
+                        button.btn.btn--green Submit review
+                 
     section.section-cta
         .cta
             .cta__img.cta__img--logo
@@ -99,8 +114,6 @@ block content
 
                 -if (user && !isBooked)
                     button.btn.btn--green.span-all-rows#book-tour(data-tour-id= `${tour.id}`) Book tour now!
-                -else if (user && isBooked)
-                    button.btn.span-all-rows(disabled) Tour already booked!
-                    a.btn.btn--green.span-all-rows#book-tour(href= "") Leave a review
+
                 -if (!user)
                     a.btn.btn--green.span-all-rows(href= '/login') Log in to book tour
