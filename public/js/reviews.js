@@ -21,6 +21,6 @@ export async function leaveReview(review, rating, tour, user) {
       }, 1000);
     }
   } catch (err) {
-    showAlert('error', 'You can only leave one review.');
+    showAlert('error', err.response.data.message);
   }
 }

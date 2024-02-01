@@ -11,7 +11,7 @@ const {
 const { protect, restrictTo } = require('./../controllers/authController');
 
 router.use(protect)
-router.get('/checkout-session/:tourId', getCheckoutSession);
+router.get('/checkout-session/:tourId', restrictTo('user'), getCheckoutSession);
 
 router.use(restrictTo('admin', 'lead-guide'))
 router.route('/').get(getAllBookings).post(createBooking);

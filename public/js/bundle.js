@@ -12219,14 +12219,13 @@ function _bookTour() {
             sessionId: session.data.session.id
           });
         case 6:
-          _context.next = 12;
+          _context.next = 11;
           break;
         case 8:
           _context.prev = 8;
           _context.t0 = _context["catch"](0);
-          console.error(_context.t0);
-          (0, _alerts.showAlert)('error', _context.t0);
-        case 12:
+          (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+        case 11:
         case "end":
           return _context.stop();
       }
@@ -12282,7 +12281,7 @@ function _leaveReview() {
         case 7:
           _context.prev = 7;
           _context.t0 = _context["catch"](0);
-          (0, _alerts.showAlert)('error', 'You can only leave one review.');
+          (0, _alerts.showAlert)('error', _context.t0.response.data.message);
         case 10:
         case "end":
           return _context.stop();

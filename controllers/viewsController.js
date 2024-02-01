@@ -26,9 +26,9 @@ module.exports = {
     if (!tour)
       return next(new AppError('There is no tour with that name', 404));
 
-    const booking = await Booking.findOne({ user: res.locals.user, tour });
-
-    let commentExist = false;
+    let commentExist,
+      isBooked = false;
+    let canBook = true; // These fields are variables becuase if there's no user logged in, pug will throw an error
     if (res.locals.user) {
       for (const review of tour.reviews) {
         if (review.user.id === res.locals.user.id) {
@@ -36,8 +36,12 @@ module.exports = {
           break;
         }
       }
+
+      const booking = await Booking.findOne({ user: res.locals.user, tour });
+      canBook = res.locals.user.role === 'user' ? true : false; //Only users can add a review
+      isBooked = booking ? true : false; //If the tour is booked by the current user, prevent him from booking again by hiding the booking section
     }
-    const isBooked = booking ? true : false;
+
     // Build template
     //Render template using the data
     res.status(200).render('tour', {
@@ -45,6 +49,7 @@ module.exports = {
       tour,
       isBooked,
       commentExist,
+      canBook,
     });
   }),
   getLoginForm: function (req, res) {

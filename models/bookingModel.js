@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const AppError = require('../utils/appError');
 
 const bookingSchema = new mongoose.Schema({
   tour: {
@@ -33,6 +34,17 @@ bookingSchema.pre(/^find/, function (next) {
   });
   next()
 });
+
+
+bookingSchema.pre('save', async function(next){
+  
+  const existingBooking = await this.constructor.findOne({
+    user: this.user,
+    tour: this.tour,
+  });
+
+  if (existingBooking) return next(new AppError("Can't book multiple times"))
+})
 
 
 
