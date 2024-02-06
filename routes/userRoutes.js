@@ -1,6 +1,8 @@
 const express = require('express');
-
+const bookingRouter = require('../routes/bookingRoutes')
 const router = express.Router();
+router.use('/:userId/bookings', bookingRouter);
+
 
 const {
   getAllUsers,

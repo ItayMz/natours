@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const reviewRouter = require('../routes/reviewRoutes');
+const bookingRouter = require('../routes/bookingRoutes');
 
-// POST /tour/sefr3q3sq2/reviews
-// GET /tour/sefr3q3sq2/reviews
+
 
 // Mounting a router
 router.use('/:tourId/reviews', reviewRouter);
+router.use('/:tourId/bookings', bookingRouter);
 
 const {
   getAllTours,
@@ -39,6 +40,12 @@ router
 router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 router.route('/tour-stats').get(getTourStats);
 
+
+
 router.route('/tours-within/:distance/center/:latlng/unit/:unit').get(getToursWithin)
 router.route('/distances/:latlng/unit/:unit').get(getDistances)
+
+
+
+
 module.exports = router;

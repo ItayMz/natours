@@ -3,7 +3,7 @@ Below are the challenges typed out so not everyone has to type them out on their
 
 - Implement restriction that users can only review a tour that they have actually booked; --COMPLETED--
 
-- Implement nested booking routes: /tours/:id/bookings and /users/:id/bookings;
+- Implement nested booking routes: /tours/:id/bookings and /users/:id/bookings; --COMPLETED--
 
 - Improve tour dates: add a participants and soldOut field to each date. A date then becomes an instance of the tour. Then, when a user boooks, they need to select one of the dates. A new booking will increase the number of participants in the date, until it is booked out(participants > maxGroupSize). So when a user wants to book, you need to check if tour on the selected date is still available;
 

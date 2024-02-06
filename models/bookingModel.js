@@ -26,27 +26,22 @@ const bookingSchema = new mongoose.Schema({
   },
 });
 
-
 bookingSchema.pre(/^find/, function (next) {
-  this.populate('user').populate({
+  this.populate({ path: 'user', select: 'name' }).populate({
     path: 'tour',
     select: 'name',
   });
-  next()
+  next();
 });
 
-
-bookingSchema.pre('save', async function(next){
-  
+bookingSchema.pre('save', async function (next) {
   const existingBooking = await this.constructor.findOne({
     user: this.user,
     tour: this.tour,
   });
 
-  if (existingBooking) return next(new AppError("Can't book multiple times"))
-})
-
-
+  if (existingBooking) return next(new AppError("Can't book multiple times"));
+});
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

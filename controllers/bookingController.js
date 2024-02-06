@@ -75,4 +75,6 @@ module.exports = {
       return next(new AppError('You must buy this tour to review it'));
     next();
   }),
-};
+  
+
+  }

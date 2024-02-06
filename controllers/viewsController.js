@@ -16,7 +16,6 @@ module.exports = {
     });
   }),
   getTour: catchAsync(async function (req, res, next) {
-    console.log('TOUR?', req.tour);
     // Get the data, for the requested tour (including reviews and guides)
     const tour = await Tour.findOne({ slug: req.params.slug }).populate({
       path: 'reviews',

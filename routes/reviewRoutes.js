@@ -3,6 +3,10 @@
 
 const express = require('express');
 const router = express.Router({mergeParams: true}); //We merge parameters to access the previous route
+
+// POST /tour/sefr3q3sq2/reviews
+// GET /tour/sefr3q3sq2/reviews
+
 const {
   getAllReviews,
   createReview,
@@ -20,6 +24,8 @@ router
   .route('/')
   .get(getAllReviews)
   .post( restrictTo('user'), setTourUserIds, checkIfBooked ,createReview);
+
+
 
   router.route('/:id').get(getReview).patch(restrictTo('user','admin'),updateReview).delete(restrictTo('user','admin'),deleteReview)
 
