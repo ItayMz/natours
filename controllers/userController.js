@@ -4,6 +4,7 @@ const User = require('./../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
+const Tour = require('../models/tourModel');
 
 //No image processing
 
@@ -106,4 +107,5 @@ module.exports = {
   //Do NOT update passwords with this!
   updateUser: factory.updateOne(User),
   deleteUser: factory.deleteOne(User),
+  
 };

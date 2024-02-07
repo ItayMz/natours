@@ -4,6 +4,7 @@ import { login, logout, signup } from './login';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
 import { leaveReview } from './reviews';
+import { likeTour,unlikeTour } from './likeTour';
 // DOM ELEMENTS
 
 const mapBox = document.getElementById('map');
@@ -14,7 +15,8 @@ const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
 const reviewForm = document.querySelector(".review--form")
-
+const likeTourBtn = document.getElementById("like-button")
+const unlikeTourBtn = document.getElementById("unlike-button")
 // DELEGATION
 
 if (mapBox) {
@@ -97,5 +99,20 @@ if (bookBtn)
 
       document.getElementById("review").textContent = ""
       document.getElementById("rating").textContent = ""
+    })
+  }
+
+  if(likeTourBtn){
+    likeTourBtn.addEventListener('click', function(e){
+      e.preventDefault()
+      const { tourId } = e.target.dataset;
+      likeTour(tourId)
+    })
+  }
+  if(unlikeTourBtn){
+    unlikeTourBtn.addEventListener('click', function(e){
+      e.preventDefault()
+      const { tourId } = e.target.dataset;
+      unlikeTour(tourId)
     })
   }

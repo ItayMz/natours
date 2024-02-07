@@ -1,10 +1,12 @@
 extends base
 
 block content 
-
+    -if(!tours) 
+        h1 No tours yet
     main.main 
         .card-container
             each tour in tours
+                
                 .card
                     .card__header
                         .card__picture
@@ -43,6 +45,9 @@ block content
                             | 
                             span.card__footer-text= `rating (${tour.ratingsQuantity})`
                         div 
+                        
+                        -if(user.likedTours.includes(tour._id))
+                            h3="You like this tour ❤️"
                         a.btn.btn--green.btn--small(href=`/tour/${tour.slug}`) Details
 
                         

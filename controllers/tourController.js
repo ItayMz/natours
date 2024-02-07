@@ -4,6 +4,7 @@ const Tour = require('./../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 const AppError = require('../utils/appError');
+const User = require('../models/userModel');
 
 const multerStorage = multer.memoryStorage();
 
@@ -193,4 +194,28 @@ module.exports = {
       data: { data: distances },
     });
   }),
+  likeTour: catchAsync(async function(req,res,next){
+    const tour = req.params.id;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { $push: { likedTours: tour } },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "success",
+      data: updatedUser
+    })
+  }),
+  unlikeTour: catchAsync(async function(req,res,next){
+    const tour = req.params.id;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { $pull: { likedTours: tour } },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "success",
+      data: updatedUser
+    })
+  })
 };

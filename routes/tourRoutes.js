@@ -22,6 +22,8 @@ const {
   getDistances,
   uploadTourImages,
   resizeTourImages,
+  likeTour,
+  unlikeTour
   
 } = require('../controllers/tourController');
 const { protect, restrictTo } = require('../controllers/authController');
@@ -39,6 +41,11 @@ router
   .get(protect, restrictTo('admin', 'lead-guide', 'guide'), getMonthlyPlan);
 router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 router.route('/tour-stats').get(getTourStats);
+
+router.get('/:id/like-current-tour', protect, likeTour)
+router.get('/:id/unlike-current-tour', protect, unlikeTour)
+
+
 
 
 

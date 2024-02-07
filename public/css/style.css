@@ -234,6 +234,10 @@ body {
   background-color: #55c57a;
   color: #fff;
 }
+.btn--red {
+  background-color: #bd1e1e;
+  color: #fff;
+}
 .btn--green::after {
   background-color: #55c57a;
 }

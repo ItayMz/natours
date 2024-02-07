@@ -14,6 +14,7 @@ const {
   getMe,
   uploadUserPhoto,
   resizeUserPhoto,
+  
 } = require('../controllers/userController');
 
 const {

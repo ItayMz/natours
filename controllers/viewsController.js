@@ -8,11 +8,14 @@ module.exports = {
   getOverview: catchAsync(async function (req, res) {
     // Get tour data from collection
     const tours = await Tour.find();
+    let user;
+    if(res.locals.user) user = res.locals.user
     // Build template
     // Render that template using tour data
     res.status(200).render('overview', {
       title: 'All Tours',
       tours,
+      user
     });
   }),
   getTour: catchAsync(async function (req, res, next) {
@@ -105,4 +108,13 @@ module.exports = {
       tours,
     });
   }),
+  getMyLikedTours: catchAsync(async function (req,res,next){
+    const currentUser = await User.findById(req.user.id)
+    const likedTours = await Tour.find({_id: {$in: currentUser.likedTours}})
+
+    res.status(200).render('overview', {
+      title: 'My Liked Tours',
+      tours: likedTours,
+    });
+  })
 };

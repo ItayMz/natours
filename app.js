@@ -41,6 +41,7 @@ app.use(
           'https://api.mapbox.com',
           'https://cdnjs.cloudflare.com',
           'https://js.stripe.com/v3/',
+          ,
           "'unsafe-inline'",
         ],
         'connect-src': [
@@ -52,6 +53,7 @@ app.use(
           'https://*.tiles.mapbox.com',
           'https://api.mapbox.com',
           'https://events.mapbox.com',
+          
         ],
       },
     },

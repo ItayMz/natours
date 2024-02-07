@@ -35,6 +35,13 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  likedTours:{
+    type: [mongoose.Types.ObjectId],
+    default: [],
+    ref: 'Tour',
+    unique: true
+  }
+  
 });
 
 userSchema
@@ -45,6 +52,8 @@ userSchema
   .set(function (value) {
     this._confirmPassword = value;
   });
+
+  
 
 userSchema.pre('save', async function (next) {
   //The pre-save hook will only work with save() and create()
