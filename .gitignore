@@ -132,3 +132,4 @@ dist
 
 /.eslintrc.json
 /.prettierrc
+/config.env
