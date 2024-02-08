@@ -1,7 +1,9 @@
 const express = require('express');
 const bookingRouter = require('../routes/bookingRoutes')
+const reviewRouter = require('../routes/reviewRoutes')
 const router = express.Router();
 router.use('/:userId/bookings', bookingRouter);
+router.use('/:userId/reviews', reviewRouter)
 
 
 const {

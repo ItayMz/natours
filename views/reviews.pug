@@ -1,0 +1,11 @@
+extends base
+
+include _userReviewCard
+
+
+
+block content
+    section
+        .user-reviews
+            each review in reviews 
+                +userReviewCard(review)

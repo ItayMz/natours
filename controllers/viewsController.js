@@ -109,12 +109,29 @@ module.exports = {
     });
   }),
   getMyLikedTours: catchAsync(async function (req,res,next){
-    const currentUser = await User.findById(req.user.id)
+    const currentUser = res.locals.user
     const likedTours = await Tour.find({_id: {$in: currentUser.likedTours}})
 
     res.status(200).render('overview', {
       title: 'My Liked Tours',
       tours: likedTours,
     });
+  }),
+  getMyReviews: catchAsync(async function (req,res,next){
+    const user = res.locals.user
+    const getDataOptions = {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${req.cookies.jwt}`, 
+        'Content-Type': 'application/json'
+      }
+    }
+    const response = await fetch(`http://localhost:3000/api/v1/users/${user.id}/reviews`, getDataOptions)
+    const data = await response.json()
+    const reviews = data.data.data
+    res.status(200).render('reviews',{
+      title: 'My reviews',
+      reviews
+    })
   })
 };

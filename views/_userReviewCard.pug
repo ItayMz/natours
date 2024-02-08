@@ -1,0 +1,26 @@
+mixin userReviewCard(review)
+    .user-reviews__card.user-review-card
+        .reviews__avatar
+            img.reviews__tour-img(src=`/img/tours/${review.tour.imageCover}`, alt=`${review.tour.slug} tour`)
+            h6.reviews__user= review.tour.name
+        p.reviews__text= review.review
+        .reviews__rating
+            each star in [1,2,3,4,5]
+                svg.reviews__star(class= `reviews__star--${review.rating >= star? 'active' : 'inactive'}`)
+                    use(xlink:href='/img/icons.svg#icon-star')
+
+        section.cta-content
+            
+            button.btn.btn--green.span-all-rows.update-button(data-review= review) Edit 
+            button.btn.btn--red.span-all-rows.delete-button(data-review-id= review.id) Delete
+
+            //-   Add a form template
+    form.user-reviews__card.hidden.user-review-form(id=`review-form-${review.id}`)
+        //-  Add form fields as needed
+        .reviews__avatar
+            img.reviews__tour-img(src=`/img/tours/${review.tour.imageCover}`, alt=`${review.tour.slug} tour`)
+            h6.reviews__user= review.tour.name
+        textarea(type='text' name='review' placeholder='Enter your review' value=review.review)
+        input(type='number' min=1 max=5 name='rating' placeholder='Enter your rating' value=review.rating)
+        button.btn.btn--green.update-submit-button(type='submit' data-review-id=review.id) Save
+        button.btn.btn--red.cancel-edit-button(type='button') Cancel
