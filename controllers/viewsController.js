@@ -126,7 +126,7 @@ module.exports = {
         'Content-Type': 'application/json'
       }
     }
-    const response = await fetch(`http://localhost:3000/api/v1/users/${user.id}/reviews`, getDataOptions)
+    const response = await fetch(`/api/v1/users/${user.id}/reviews`, getDataOptions)
     const data = await response.json()
     const reviews = data.data.data
     res.status(200).render('reviews',{
