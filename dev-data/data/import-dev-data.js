@@ -65,7 +65,6 @@ async function deleteData() {
 if(process.argv[2] === '--import')importData()
 if(process.argv[2] === '--delete')deleteData()
 
-console.log(process.argv)
 
 
 //Important note: When importing data, make sure to comment out the first pre save hook in the user model 

@@ -7,6 +7,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
 const cookieParser = require('cookie-parser'); //Psrses all the cookies from incoming requests so we can have access to them
+const compression = require('compression');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const viewRouter = require('./routes/viewRoutes');
@@ -93,6 +94,7 @@ app.use(
   })
 );
 
+app.use(compression())
 //Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();

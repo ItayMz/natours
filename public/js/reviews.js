@@ -5,7 +5,7 @@ export async function leaveReview(review, rating, tour, user) {
   try {
     const res = await axios({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/reviews',
+      url: '/api/v1/reviews',
       data: {
         review,
         rating,
@@ -29,7 +29,7 @@ export async function deleteReview(reviewId){
   try {
     const res = await axios({
       method: 'DELETE',
-      url: `http://localhost:3000/api/v1/reviews/${reviewId}`,
+      url: `/api/v1/reviews/${reviewId}`,
       
     });
 
@@ -48,7 +48,7 @@ export async function updateReview(reviewId, formData){
   try{
     const res = await axios({
       method: "PATCH",
-      url: `http://localhost:3000/api/v1/reviews/${reviewId}`,
+      url: `/api/v1/reviews/${reviewId}`,
       data: formData
     })
     if (res.data.status === 'success') {

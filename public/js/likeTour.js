@@ -4,7 +4,7 @@ export async function likeTour(tourId){
     try {
         const res = await axios({
           method: 'GET',
-          url: `http://localhost:3000/api/v1/tours/${tourId}/like-current-tour`, 
+          url: `/api/v1/tours/${tourId}/like-current-tour`, 
         });
         if (res.data.status === 'success') {
           showAlert('success', 'Successfully liked the tour');
@@ -21,7 +21,7 @@ export async function unlikeTour(tourId){
     try {
         const res = await axios({
           method: 'GET',
-          url: `http://localhost:3000/api/v1/tours/${tourId}/unlike-current-tour`, 
+          url: `/api/v1/tours/${tourId}/unlike-current-tour`, 
         });
         if (res.data.status === 'success') {
           showAlert('success', 'Successfully unliked the tour');

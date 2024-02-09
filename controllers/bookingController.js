@@ -59,7 +59,6 @@ module.exports = {
     if (!tour && !user && !price) return next();
 
     const userDB = await User.findById(user)
-    console.log("FROM BOOKING CONTROLLER:" , userDB, tour);
 
     
     await Booking.create({ tour, user, price });
