@@ -119,7 +119,9 @@ block content
 
                         -if (!user)
                             a.btn.btn--green.span-all-rows(href= '/login') Log in to book tour
-                        -if(user.likedTours.includes(tour._id))
-                            a.btn.btn--red.span-all-rows#unlike-button(data-tour-id= `${tour.id}`) Unlike this tour
-                        -else   
-                            a.btn.btn--green.span-all-rows#like-button(data-tour-id= `${tour.id}`) Like this tour
+                        if user
+                        
+                           if user.likedTours.includes(tour._id)
+                               a.btn.btn--red.span-all-rows#unlike-button(data-tour-id= `${tour.id}`) Unlike this tour
+                           else   
+                               a.btn.btn--green.span-all-rows#like-button(data-tour-id= `${tour.id}`) Like this tour
