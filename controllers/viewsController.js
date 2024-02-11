@@ -126,7 +126,7 @@ module.exports = {
         'Content-Type': 'application/json'
       }
     }
-    const url = process.env.NODE_ENV === 'production' ? "https://natours-1g23.onrender.com" : `http://localhost:${process.env.PORT}`
+    const url = `${req.protocol}://${req.get('host')}`;
     const response = await fetch(`${url}/api/v1/users/${user.id}/reviews`, getDataOptions)
     const data = await response.json()
     const reviews = data.data.data
