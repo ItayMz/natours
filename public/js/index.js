@@ -50,7 +50,11 @@ if (signupForm) {
   });
 }
 
-if (logoutBtn) logoutBtn.addEventListener('click', logout);
+if (logoutBtn)
+  logoutBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    logout();
+  });
 
 if (userDataForm) {
   userDataForm.addEventListener('submit', (e) => {
