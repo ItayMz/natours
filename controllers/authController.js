@@ -47,7 +47,6 @@ module.exports = {
       password: req.body.password,
       confirmPassword: req.body.confirmPassword
     });
-    console.log(req.body);
     const url = `${req.protocol}://${req.get('host')}/me`;
     await new Email(newUser, url).sendWelcome();
     createSendToken(newUser, 201, res);
