@@ -130,6 +130,7 @@ module.exports = {
     console.log(url);
     const response = await fetch(url , getDataOptions)
     const data = await response.json()
+    console.log(data);
     const reviews = data.data.data
     res.status(200).render('reviews',{
       title: 'My reviews',
