@@ -5,17 +5,24 @@ const User = require('../models/userModel');
 const Booking = require('../models/bookingModel');
 
 module.exports = {
+  alerts: function (req, res, next) {
+    const { alert } = req.query;
+    if (alert === 'booking')
+      res.locals.alert =
+        "Your booking was successful! Please check your email for a confirmation. If your booking doesn't show up here immediately, please come back later.";
+    next();
+  },
   getOverview: catchAsync(async function (req, res) {
     // Get tour data from collection
     const tours = await Tour.find();
     let user;
-    if(res.locals.user) user = res.locals.user
+    if (res.locals.user) user = res.locals.user;
     // Build template
     // Render that template using tour data
     res.status(200).render('overview', {
       title: 'All Tours',
       tours,
-      user
+      user,
     });
   }),
   getTour: catchAsync(async function (req, res, next) {
@@ -108,33 +115,37 @@ module.exports = {
       tours,
     });
   }),
-  getMyLikedTours: catchAsync(async function (req,res,next){
-    const currentUser = res.locals.user
-    const likedTours = await Tour.find({_id: {$in: currentUser.likedTours}})
+  getMyLikedTours: catchAsync(async function (req, res, next) {
+    const currentUser = res.locals.user;
+    const likedTours = await Tour.find({
+      _id: { $in: currentUser.likedTours },
+    });
 
     res.status(200).render('overview', {
       title: 'My Liked Tours',
       tours: likedTours,
     });
   }),
-  getMyReviews: catchAsync(async function (req,res,next){
-    const user = res.locals.user
+  getMyReviews: catchAsync(async function (req, res, next) {
+    const user = res.locals.user;
     const getDataOptions = {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${req.cookies.jwt}`, 
-        'Content-Type': 'application/json'
-      }
-    }
-    const url = `${req.protocol}://${req.get('host')}/api/v1/users/${user.id}/reviews`;
+        Authorization: `Bearer ${req.cookies.jwt}`,
+        'Content-Type': 'application/json',
+      },
+    };
+    const url = `${req.protocol}://${req.get('host')}/api/v1/users/${
+      user.id
+    }/reviews`;
     console.log(url);
-    const response = await fetch(url , getDataOptions)
-    const data = await response.json()
+    const response = await fetch(url, getDataOptions);
+    const data = await response.json();
     console.log(data);
-    const reviews = data.data.data
-    res.status(200).render('reviews',{
+    const reviews = data.data.data;
+    res.status(200).render('reviews', {
       title: 'My reviews',
-      reviews
-    })
-  })
+      reviews,
+    });
+  }),
 };

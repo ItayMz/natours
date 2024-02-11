@@ -1,8 +1,9 @@
-// import '@babel/polyfill';
+import '@babel/polyfill'; //For parcel build
 import { displayMap } from './mapbox';
 import { login, logout, signup } from './login';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
+import { showAlert } from './alerts';
 import { deleteReview, leaveReview, updateReview } from './reviews';
 import { likeTour, unlikeTour } from './likeTour';
 // DOM ELEMENTS
@@ -122,6 +123,8 @@ if (unlikeTourBtn) {
     unlikeTour(tourId);
   });
 }
+const alertMessage = document.querySelector('body').dataset.alert
+if(alert) showAlert('success', alertMessage,20)
 
 // For triggering the "view review form" and deleting review
 document.addEventListener('DOMContentLoaded', function () {
