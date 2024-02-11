@@ -27,8 +27,7 @@ export async function logout() {
       method: 'GET',
       url: '/api/v1/users/logout',
     });
-    console.log(res);
-    console.log("JFK");
+  
     if (res.data.status === 'success') {
        showAlert('success', 'Logged out successfully');
        window.setTimeout(() => {
