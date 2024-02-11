@@ -3,6 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const User = require('../models/userModel');
 const Booking = require('../models/bookingModel');
+const Review = require('../models/reviewModel')
 
 module.exports = {
   alerts: function (req, res, next) {
@@ -128,21 +129,7 @@ module.exports = {
   }),
   getMyReviews: catchAsync(async function (req, res, next) {
     const user = res.locals.user;
-    const getDataOptions = {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${req.cookies.jwt}`,
-        'Content-Type': 'application/json',
-      },
-    };
-    const url = `${req.protocol}://${req.get('host')}/api/v1/users/${
-      user.id
-    }/reviews`;
-    console.log(url);
-    const response = await fetch(url, getDataOptions);
-    const data = await response.json();
-    console.log(data);
-    const reviews = data.data.data;
+    const reviews = await Review.find({user})
     res.status(200).render('reviews', {
       title: 'My reviews',
       reviews,
