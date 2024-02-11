@@ -5,6 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 const crypto = require('crypto');
+const { log } = require('console');
 
 function signToken(id) {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -40,7 +41,13 @@ function createSendToken(user, statusCode, res) {
 
 module.exports = {
   signup: catchAsync(async function (req, res, next) {
-    const newUser = await User.create(req.body);
+    const newUser = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      confirmPassword: req.body.confirmPassword
+    });
+    console.log(req.body);
     const url = `${req.protocol}://${req.get('host')}/me`;
     await new Email(newUser, url).sendWelcome();
     createSendToken(newUser, 201, res);
