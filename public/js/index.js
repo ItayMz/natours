@@ -124,7 +124,7 @@ if (unlikeTourBtn) {
   });
 }
 const alertMessage = document.querySelector('body').dataset.alert
-if(alert) showAlert('success', alertMessage,20)
+if(alertMessage) showAlert('success', alertMessage,20)
 
 // For triggering the "view review form" and deleting review
 document.addEventListener('DOMContentLoaded', function () {
