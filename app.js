@@ -14,14 +14,15 @@ const viewRouter = require('./routes/viewRoutes');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
-const bookingRouter = require('./routes/bookingRoutes')
+const bookingRouter = require('./routes/bookingRoutes');
+const { webhookCheckout } = require('./controllers/bookingController');
 const cors = require('cors');
 const app = express();
 
 //Implement CORS
-app.use(cors())
+app.use(cors());
 
-app.options('*',cors())
+app.options('*', cors());
 
 // Defining the view engine.
 app.set('view engine', 'pug');
@@ -60,7 +61,6 @@ app.use(
           'https://*.tiles.mapbox.com',
           'https://api.mapbox.com',
           'https://events.mapbox.com',
-          
         ],
       },
     },
@@ -77,6 +77,14 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour',
 });
 app.use('/api', limiter);
+
+//We put this route here instead of the booking controller because in this handler function, when we receive the body from Stripe,
+//the Stripe function that we're then gonna use to actually read the body needs this body in a raw form (A string and not JSON)
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout
+);
 
 //Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); //When the req.body is greater than 10kb, the request will not be sent
@@ -100,7 +108,7 @@ app.use(
   })
 );
 
-app.use(compression())
+app.use(compression());
 //Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -113,7 +121,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
-app.use('/api/v1/bookings', bookingRouter)
+app.use('/api/v1/bookings', bookingRouter);
 app.use(globalErrorHandler);
 
 app.all('*', (req, res, next) => {
