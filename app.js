@@ -15,7 +15,13 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes')
+const cors = require('cors');
 const app = express();
+
+//Implement CORS
+app.use(cors())
+
+app.options('*',cors())
 
 // Defining the view engine.
 app.set('view engine', 'pug');
